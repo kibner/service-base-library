@@ -1,6 +1,7 @@
 bin/
 obj/
 /packages/
+/Examples/bin/
 
 # idea files
 /.idea/
@@ -10,4 +11,5 @@ obj/
 
 # user files
 /ServiceBaseLibrary.sln.DotSettings.user
+
 
