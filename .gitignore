@@ -1,0 +1,13 @@
+bin/
+obj/
+/packages/
+
+# idea files
+/.idea/
+
+# vscode files
+/.vscode/
+
+# user files
+/ServiceBaseLibrary.sln.DotSettings.user
+
