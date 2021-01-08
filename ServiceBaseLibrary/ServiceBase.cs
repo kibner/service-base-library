@@ -25,7 +25,7 @@ namespace ServiceBaseLibrary
         {
             _context.SaveChanges();
         }
-        
+
         public virtual void ClearEntity()
         {
             _context.Set<TEntity>().RemoveRange(Set);
