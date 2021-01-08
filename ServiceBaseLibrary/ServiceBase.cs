@@ -21,10 +21,15 @@ namespace ServiceBaseLibrary
             Set = _context.Set<TEntity>();
         }
 
+        public virtual void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
+        
         public virtual void ClearEntity()
         {
             _context.Set<TEntity>().RemoveRange(Set);
-            _context.SaveChanges();
+            SaveChanges();
         }
 
         public virtual int Count()
@@ -48,7 +53,7 @@ namespace ServiceBaseLibrary
             try
             {
                 Set.Add(entity);
-                _context.SaveChanges();
+                SaveChanges();
 
                 return true;
             }
@@ -66,7 +71,7 @@ namespace ServiceBaseLibrary
             {
                 foreach (var entity in entities) Set.Add(entity);
 
-                _context.SaveChanges();
+                SaveChanges();
 
                 return true;
             }
@@ -92,7 +97,7 @@ namespace ServiceBaseLibrary
 
                 _context.Entry(existing).CurrentValues.SetValues(entity);
 
-                _context.SaveChanges();
+                SaveChanges();
 
                 return true;
             }
@@ -128,7 +133,7 @@ namespace ServiceBaseLibrary
             {
                 var entity = GetByIds(entityIds);
                 Set.Remove(entity);
-                _context.SaveChanges();
+                SaveChanges();
 
                 return true;
             }
@@ -138,7 +143,7 @@ namespace ServiceBaseLibrary
             }
         }
 
-        #region GetById/s
+        #region GetByIds
 
         public virtual TEntity GetById<TValue>(TValue entityId) where TValue : struct
         {
@@ -183,7 +188,7 @@ namespace ServiceBaseLibrary
 
         #endregion
 
-        #region GetById/sQueryable
+        #region GetByIdsQueryable
 
         public virtual IQueryable<TEntity> GetByIdQueryable<TValue>(TValue entityId) where TValue : struct
         {
@@ -466,7 +471,7 @@ namespace ServiceBaseLibrary
             if (page == null) throw new ArgumentNullException(nameof(page));
             if (orderBy == null) throw new ArgumentNullException(nameof(orderBy));
             if (orderBy.Count < 1)
-                throw new ArgumentOutOfRangeException(nameof(orderBy), "There are no OrderBy items in the list.");
+                throw new ArgumentOutOfRangeException(nameof(orderBy), @"There are no OrderBy items in the list.");
 
             IQueryable<TEntity> resultSet = Set;
 
@@ -511,8 +516,6 @@ namespace ServiceBaseLibrary
         private static Expression<Func<TEntity, bool>> PropertiesEqual<TValue>(IList<PropertyInfo> properties,
             IList<TValue> entityIds) where TValue : struct
         {
-//            if (properties.Count != entityIds.Count) return null;
-
             var param = Expression.Parameter(typeof(TEntity));
             var bodyExpressions = new List<BinaryExpression>();
 

@@ -7,6 +7,8 @@ namespace ServiceBaseLibrary
 {
     public interface IService<TEntity> where TEntity : class
     {
+        void SaveChanges();
+        void ClearEntity();
         int Count();
         int Count(Expression<Func<TEntity, bool>> whereExpression);
         bool Create(TEntity entity);
@@ -14,7 +16,6 @@ namespace ServiceBaseLibrary
         bool Update(TEntity entity);
         bool Delete<TValue>(TValue entityId) where TValue : struct;
         bool Delete<TValue>(params TValue[] entityIds) where TValue : struct;
-        void ClearEntity();
 
         #region GetById/s
 
